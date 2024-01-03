@@ -19,6 +19,8 @@ func unmarshalEnvironmentComputeClassification(rawMsg json.RawMessage) (Environm
 	}
 	var b EnvironmentComputeClassification
 	switch m["kind"] {
+	case "aci":
+		b = &AzureContainerInstanceCompute{}
 	case "kubernetes":
 		b = &KubernetesCompute{}
 	default:
@@ -40,6 +42,8 @@ func unmarshalEnvironmentComputeUpdateClassification(rawMsg json.RawMessage) (En
 	}
 	var b EnvironmentComputeUpdateClassification
 	switch m["kind"] {
+	case "aci":
+		b = &AzureContainerInstanceComputeUpdate{}
 	case "kubernetes":
 		b = &KubernetesComputeUpdate{}
 	default:
@@ -61,6 +65,8 @@ func unmarshalExtensionClassification(rawMsg json.RawMessage) (ExtensionClassifi
 	}
 	var b ExtensionClassification
 	switch m["kind"] {
+	case "aci":
+		b = &AzureContainerInstanceExtension{}
 	case "daprSidecar":
 		b = &DaprSidecarExtension{}
 	case "kubernetesMetadata":
