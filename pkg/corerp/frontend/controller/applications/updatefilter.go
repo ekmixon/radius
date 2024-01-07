@@ -64,6 +64,10 @@ func CreateAppScopedNamespace(ctx context.Context, newResource, oldResource *dat
 	} else {
 		// Construct namespace using the namespace specified by environment resource.
 		envNamespace, err := rp_kube.FindNamespaceByEnvID(ctx, opt.DataProvider, newResource.Properties.Environment)
+		if err == rp_kube.ErrNonKubernetesEnvironment {
+			return nil, nil
+		}
+
 		if err != nil {
 			return rest.NewBadRequestResponse(fmt.Sprintf("Environment %s could not be constructed: %s",
 				newResource.Properties.Environment, err.Error())), nil

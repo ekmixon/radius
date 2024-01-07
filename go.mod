@@ -95,6 +95,7 @@ require (
 require (
 	github.com/golang-jwt/jwt/v5 v5.2.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/radius-project/azure-cs2 v0.0.0-20231221223754-55678f89680d // indirect
 	github.com/stretchr/objx v0.5.1 // indirect
 	github.com/tidwall/gjson v1.14.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect

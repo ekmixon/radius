@@ -22,6 +22,8 @@ import (
 	"github.com/radius-project/radius/pkg/azure/armauth"
 	"github.com/radius-project/radius/pkg/corerp/datamodel"
 	"github.com/radius-project/radius/pkg/corerp/handlers"
+	"github.com/radius-project/radius/pkg/corerp/renderers"
+	"github.com/radius-project/radius/pkg/corerp/renderers/aci"
 	"github.com/radius-project/radius/pkg/corerp/renderers/container"
 	azcontainer "github.com/radius-project/radius/pkg/corerp/renderers/container/azure"
 	"github.com/radius-project/radius/pkg/corerp/renderers/daprextension"
@@ -29,6 +31,7 @@ import (
 	"github.com/radius-project/radius/pkg/corerp/renderers/httproute"
 	"github.com/radius-project/radius/pkg/corerp/renderers/kubernetesmetadata"
 	"github.com/radius-project/radius/pkg/corerp/renderers/manualscale"
+	"github.com/radius-project/radius/pkg/corerp/renderers/mux"
 	"github.com/radius-project/radius/pkg/corerp/renderers/volume"
 	"github.com/radius-project/radius/pkg/resourcemodel"
 	rpv1 "github.com/radius-project/radius/pkg/rp/v1"
@@ -87,13 +90,18 @@ func NewApplicationModel(arm *armauth.ArmConfig, k8sClient client.Client, k8sCli
 	radiusResourceModel := []RadiusResourceModel{
 		{
 			ResourceType: container.ResourceType,
-			Renderer: &kubernetesmetadata.Renderer{
-				Inner: &manualscale.Renderer{
-					Inner: &daprextension.Renderer{
-						Inner: &container.Renderer{
-							RoleAssignmentMap: roleAssignmentMap,
+			Renderer: &mux.Renderer{
+				Inners: map[rpv1.EnvironmentComputeKind]renderers.Renderer{
+					rpv1.KubernetesComputeKind: &kubernetesmetadata.Renderer{
+						Inner: &manualscale.Renderer{
+							Inner: &daprextension.Renderer{
+								Inner: &container.Renderer{
+									RoleAssignmentMap: roleAssignmentMap,
+								},
+							},
 						},
 					},
+					rpv1.ACIComputeKind: &aci.Renderer{},
 				},
 			},
 		},
@@ -158,6 +166,20 @@ func NewApplicationModel(arm *armauth.ArmConfig, k8sClient client.Client, k8sCli
 				Provider: resourcemodel.ProviderAzure,
 			},
 			ResourceHandler: handlers.NewAzureRoleAssignmentHandler(arm),
+		},
+		{
+			ResourceType: resourcemodel.ResourceType{
+				Type:     "Microsoft.ContainerInstance/containerGroupProfiles",
+				Provider: resourcemodel.ProviderAzure,
+			},
+			ResourceHandler: handlers.NewAzureCGProfileHandler(arm),
+		},
+		{
+			ResourceType: resourcemodel.ResourceType{
+				Type:     "Microsoft.ContainerInstance/containerScaleSets",
+				Provider: resourcemodel.ProviderAzure,
+			},
+			ResourceHandler: handlers.NewAzureCGScaleSetHandler(arm),
 		},
 	}
 	err := checkForDuplicateRegistrations(radiusResourceModel, outputResourceModel)
