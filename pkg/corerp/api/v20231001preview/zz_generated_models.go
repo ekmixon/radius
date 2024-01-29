@@ -78,7 +78,7 @@ type ApplicationResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *ApplicationProperties
 
 	// Resource tags.
@@ -448,7 +448,7 @@ type ContainerResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *ContainerProperties
 
 	// Resource tags.
@@ -632,7 +632,7 @@ type EnvironmentResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *EnvironmentProperties
 
 	// Resource tags.
@@ -805,7 +805,7 @@ type ExtenderResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *ExtenderProperties
 
 	// Resource tags.
@@ -915,7 +915,7 @@ type GatewayResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *GatewayProperties
 
 	// Resource tags.
@@ -1068,7 +1068,7 @@ type HTTPRouteResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *HTTPRouteProperties
 
 	// Resource tags.
@@ -1613,7 +1613,7 @@ type SecretStoreResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties *SecretStoreProperties
 
 	// Resource tags.
@@ -1852,7 +1852,7 @@ type VolumeResource struct {
 	// REQUIRED; The geo-location where the resource lives
 	Location *string
 
-	// The resource-specific properties for this resource.
+	// REQUIRED; The resource-specific properties for this resource.
 	Properties VolumePropertiesClassification
 
 	// Resource tags.
