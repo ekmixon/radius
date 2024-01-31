@@ -24,6 +24,7 @@ import (
 	"github.com/radius-project/radius/pkg/corerp/handlers"
 	"github.com/radius-project/radius/pkg/corerp/renderers"
 	"github.com/radius-project/radius/pkg/corerp/renderers/aci"
+	aci_manualscale "github.com/radius-project/radius/pkg/corerp/renderers/aci/manualscale"
 	"github.com/radius-project/radius/pkg/corerp/renderers/container"
 	azcontainer "github.com/radius-project/radius/pkg/corerp/renderers/container/azure"
 	"github.com/radius-project/radius/pkg/corerp/renderers/daprextension"
@@ -101,7 +102,9 @@ func NewApplicationModel(arm *armauth.ArmConfig, k8sClient client.Client, k8sCli
 							},
 						},
 					},
-					rpv1.ACIComputeKind: &aci.Renderer{},
+					rpv1.ACIComputeKind: &aci_manualscale.Renderer{
+						Inner: &aci.Renderer{},
+					},
 				},
 			},
 		},
